@@ -50,11 +50,6 @@
 </header>
 
 <style lang="scss">
-  :global(body.dark) {
-    background-color: #1a1a1a;
-    color: #ffffff;
-  }
-
   .header {
     width: 100%;
     padding: 16px 24px;
