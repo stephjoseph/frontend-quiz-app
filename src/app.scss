@@ -47,6 +47,11 @@ body {
   background: var(--light-grey);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+
+  &.dark {
+    background: var(--dark-navy);
+    color: var(--pure-white);
+  }
 }
 
 img,
