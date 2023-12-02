@@ -6,6 +6,8 @@
   import iconMoonLight from "/images/icon-moon-light.svg";
   import iconMoonDark from "/images/icon-moon-dark.svg";
 
+  export let quiz = null;
+
   let isDarkMode;
 
   const toggleDarkMode = () => {
@@ -30,7 +32,17 @@
 </script>
 
 <header class="header">
-  <div>test</div>
+  {#if quiz}
+    <div class="header__quiz">
+      <div class="header__quiz-icon" style="background: {quiz.color};">
+        <img src={quiz.icon} alt="quiz icon" />
+      </div>
+      <h1 class="header__quiz-title">
+        {quiz.title}
+      </h1>
+    </div>
+  {/if}
+
   <div class="header__switch">
     <div class="header__switch-icon">
       <img src={isDarkMode ? iconSunLight : iconSunDark} alt="sun icon" />
@@ -56,6 +68,33 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    &__quiz {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      &-icon {
+        padding: 6px;
+        border-radius: 6px;
+        width: 40px;
+        height: 40px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      &-title {
+        color: var(--dark-navy);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%; /* 18px */
+      }
+    }
 
     &__switch {
       display: flex;
@@ -117,6 +156,14 @@
           -ms-transform: translateX(12px);
           transform: translateX(12px);
         }
+      }
+    }
+  }
+
+  body.dark {
+    .header {
+      h1 {
+        color: var(--pure-white);
       }
     }
   }

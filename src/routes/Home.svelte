@@ -25,7 +25,7 @@
     {
       text: "Accessibility",
       icon: "/images/icon-accessibility.svg",
-      path: "/html",
+      path: "/accessibility",
       color: "#F6E7FF",
     },
   ];
