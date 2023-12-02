@@ -44,13 +44,26 @@
 }
 
 body {
-  background: var(--light-grey);
+  background-image: url("/images/pattern-background-mobile-light.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--light-grey);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke, background-image;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  min-height: 100vh;
 
   &.dark {
-    background: var(--dark-navy);
     color: var(--pure-white);
+    background-image: url("/images/pattern-background-mobile-dark.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--dark-navy);
   }
 }
 
