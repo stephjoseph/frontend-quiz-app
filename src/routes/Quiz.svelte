@@ -4,6 +4,8 @@
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
   import Header from "../components/Header.svelte";
+  import iconCorrect from "/images/icon-correct.svg";
+  import iconIncorrect from "/images/icon-incorrect.svg";
 
   export let quizName;
   let quiz = null;
@@ -12,6 +14,7 @@
   let isSubmitted = false;
   let correctAnswersCount = 0;
   let showScore = false;
+  let noOptionSelected = false;
 
   onMount(async () => {
     try {
@@ -24,8 +27,6 @@
       quiz = availableQuizzes.find(
         (q) => q.title.toLowerCase() === quizName.toLowerCase(),
       );
-
-      console.log(quiz);
     } catch (error) {
       console.error("Error fetching quiz data:", error);
     }
@@ -40,10 +41,14 @@
   function handleSubmit() {
     if (selectedOption !== null) {
       const currentQuestionData = quiz.questions[currentQuestion];
-      if (selectedOption === currentQuestionData.correctAnswer) {
+      if (selectedOption === currentQuestionData.answer) {
         correctAnswersCount++;
       }
       isSubmitted = true;
+      noOptionSelected = false;
+    } else {
+      noOptionSelected = true;
+      return;
     }
   }
 
@@ -59,11 +64,20 @@
 
   function handleFinish() {
     showScore = true;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  function getLetterLabel(option) {
+    const letters = ["A", "B", "C", "D"];
+    const index = quiz.questions[currentQuestion].options.indexOf(option);
+    return letters[index];
+  }
+
+  $: isLastQuestion = quiz && currentQuestion === quiz.questions.length - 1;
 </script>
 
-{#if quiz}
-  <Header {quiz} />
+<Header {quiz} />
+{#if quiz && !showScore}
   <section class="quiz">
     <div class="quiz__container">
       <div class="quiz__question">
@@ -87,8 +101,13 @@
       {#each quiz.questions[currentQuestion].options as option (option)}
         <label
           class:correct={isSubmitted &&
-            option === quiz.questions[currentQuestion].correctAnswer}
-          class:wrong={isSubmitted && option === selectedOption}
+            option === quiz.questions[currentQuestion].answer &&
+            option === selectedOption}
+          class:incorrect={isSubmitted &&
+            option !== quiz.questions[currentQuestion].answer &&
+            option === selectedOption}
+          class:selected={!isSubmitted && selectedOption === option}
+          class="quiz__option"
         >
           <input
             type="radio"
@@ -97,22 +116,49 @@
             on:change={() => handleOptionSelect(option)}
             disabled={isSubmitted}
           />
+          <span>
+            {getLetterLabel(option)}
+          </span>
           {option}
-        </label>
+          <div class="quiz__option-icon">
+            <img
+              class="quiz__option-icon-correct"
+              src={iconCorrect}
+              alt="correct Icon"
+            />
+            <img
+              class="quiz__option-icon-incorrect"
+              src={iconIncorrect}
+              alt="incorrect Icon"
+            />
+          </div></label
+        >
       {/each}
+      <div class="quiz__options-button">
+        {#if !isSubmitted}
+          <button on:click={handleSubmit}>Submit Answer</button>
+        {:else if currentQuestion < quiz.questions.length}
+          <button on:click={isLastQuestion ? handleFinish : handleNextQuestion}>
+            {isLastQuestion && isSubmitted ? "Finish" : "Next Question"}
+          </button>
+        {/if}
+        {#if noOptionSelected}
+          <div class="quiz__error">
+            <div class="quiz__error-icon">
+              <img src={iconIncorrect} alt="error icon" />
+            </div>
+            Please select an answer
+          </div>
+        {/if}
+      </div>
     </div>
-    {#if !isSubmitted}
-      <button on:click={handleSubmit}>Submit</button>
-    {:else if currentQuestion < quiz.questions.length}
-      <button on:click={handleNextQuestion}>Next Question</button>
-    {/if}
   </section>
-  {#if showScore}
-    <p>Correct Answers: {correctAnswersCount}</p>
-  {/if}
+
   {#if currentQuestion === quiz.questions.length && !showScore}
     <button on:click={handleFinish}>Finish</button>
   {/if}
+{:else if showScore}
+  <p>Correct Answers: {correctAnswersCount}</p>
 {:else}
   <Header />
   <p>Quiz not found!</p>
@@ -169,6 +215,174 @@
         transition: width 0.3s ease;
         height: 8px;
         border-radius: 9999px;
+      }
+    }
+
+    &__options {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 12px;
+
+      &-button {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        button {
+          width: 100%;
+          padding: 19px 12px;
+          border-radius: 12px;
+          background: var(--purple);
+          border: none;
+          color: var(--pure-White, #fff);
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 100%; /* 18px */
+          cursor: pointer;
+
+          &:hover,
+          &:active {
+            background: linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0.5) 100%
+              ),
+              var(--purple, #a729f5);
+            box-shadow: 0px 16px 40px 0px rgba(143, 160, 193, 0.14);
+          }
+        }
+      }
+    }
+
+    &__option {
+      padding: 12px;
+      background: var(--pure-white);
+      border-radius: 12px;
+      color: var(--dark-navy, #313e51);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition-property: color, background-color, border-color,
+        text-decoration-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+      border: 3px solid var(--pure-white);
+
+      input {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        display: none;
+      }
+
+      span {
+        color: var(--grey-navy, #626c7f);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%; /* 18px */
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--light-grey);
+        border-radius: 6px;
+      }
+
+      &-icon {
+        min-width: 32px;
+        height: 32px;
+        position: relative;
+        margin-left: auto;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+        }
+
+        &-correct,
+        &-incorrect {
+          opacity: 0;
+          transition-property: opacity;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 150ms;
+        }
+      }
+
+      &.selected {
+        border: 3px solid var(--purple);
+
+        span {
+          color: var(--pure-white);
+          background: var(--purple);
+        }
+      }
+
+      &.correct {
+        border: 3px solid var(--green);
+
+        span {
+          color: var(--pure-white);
+          background: var(--green);
+        }
+
+        .quiz__option-icon {
+          &-correct {
+            opacity: 1;
+          }
+        }
+      }
+
+      &.incorrect {
+        border: 3px solid var(--red);
+
+        .quiz__option-icon {
+          &-incorrect {
+            opacity: 1;
+          }
+        }
+
+        span {
+          color: var(--pure-white);
+          background: var(--red);
+        }
+      }
+    }
+
+    &__error {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 8px;
+      color: var(--red, #ee5454);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 100%; /* 18px */
+
+      &-icon {
+        width: 32px;
+        height: 32px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
