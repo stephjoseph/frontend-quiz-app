@@ -32,13 +32,13 @@
     }
   });
 
-  function handleOptionSelect(option) {
+  const handleOptionSelect = (option) => {
     if (!isSubmitted) {
       selectedOption = option;
     }
-  }
+  };
 
-  function handleSubmit() {
+  const handleSubmit = () => {
     if (selectedOption !== null) {
       const currentQuestionData = quiz.questions[currentQuestion];
       if (selectedOption === currentQuestionData.answer) {
@@ -50,9 +50,9 @@
       noOptionSelected = true;
       return;
     }
-  }
+  };
 
-  function handleNextQuestion() {
+  const handleNextQuestion = () => {
     currentQuestion++;
     selectedOption = null;
     isSubmitted = false;
@@ -60,18 +60,22 @@
     if (currentQuestion === quiz.questions.length) {
       showScore = true;
     }
-  }
+  };
 
-  function handleFinish() {
+  const handleFinish = () => {
     showScore = true;
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  };
 
-  function getLetterLabel(option) {
+  const getLetterLabel = (option) => {
     const letters = ["A", "B", "C", "D"];
     const index = quiz.questions[currentQuestion].options.indexOf(option);
     return letters[index];
-  }
+  };
+
+  const playAgain = () => {
+    window.location.reload();
+  };
 
   $: isLastQuestion = quiz && currentQuestion === quiz.questions.length - 1;
 </script>
@@ -84,9 +88,9 @@
         <p class="quiz__question-number">
           Question {currentQuestion + 1} of {quiz.questions.length}
         </p>
-        <p class="quiz__question-text">
+        <h2 class="quiz__question-text">
           {quiz.questions[currentQuestion].question}
-        </p>
+        </h2>
       </div>
       <div class="quiz__question-progress-bar">
         <div
@@ -153,15 +157,30 @@
       </div>
     </div>
   </section>
-
-  {#if currentQuestion === quiz.questions.length && !showScore}
-    <button on:click={handleFinish}>Finish</button>
-  {/if}
 {:else if showScore}
-  <p>Correct Answers: {correctAnswersCount}</p>
+  <section class="score">
+    <h2>Quiz completed <span>You scored...</span></h2>
+    <div class="score__container">
+      <div class="score__card">
+        <div class="score__card-subject">
+          <div
+            class="score__card-subject-icon"
+            style="background: {quiz.color};"
+          >
+            <img src={quiz.icon} alt="{quiz.title} icon" />
+          </div>
+          <h1 class="score__card-subject-title">
+            {quiz.title}
+          </h1>
+        </div>
+        <div class="score__card-count">{correctAnswersCount}</div>
+        <span class="score__card-length">out of {quiz.questions.length}</span>
+      </div>
+      <button class="score__button" on:click={playAgain}> Play Again </button>
+    </div>
+  </section>
 {:else}
-  <Header />
-  <p>Quiz not found!</p>
+  <!-- loading state -->
 {/if}
 
 <style lang="scss">
@@ -383,6 +402,113 @@
           height: 100%;
           object-fit: cover;
         }
+      }
+    }
+  }
+
+  .score {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 32px 24px 270px;
+
+    h2 {
+      color: var(--dark-navy, #313e51);
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: 100%; /* 40px */
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      span {
+        font-weight: 500;
+      }
+    }
+
+    &__container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    &__card {
+      width: 100%;
+      background: var(--pure-white);
+      padding: 32px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+
+      &-subject {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        &-icon {
+          padding: 6px;
+          border-radius: 6px;
+          width: 40px;
+          height: 40px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        &-title {
+          color: var(--dark-navy);
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 100%; /* 18px */
+        }
+      }
+
+      &-count {
+        color: var(--dark-navy, #313e51);
+        font-size: 88px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%; /* 88px */
+      }
+
+      &-length {
+        color: var(--grey-navy, #626c7f);
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 100%; /* 18px */
+      }
+    }
+    &__button {
+      width: 100%;
+      padding: 19px 12px;
+      border-radius: 12px;
+      background: var(--purple);
+      border: none;
+      color: var(--pure-White, #fff);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 100%; /* 18px */
+      cursor: pointer;
+
+      &:hover,
+      &:active {
+        background: linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0.5) 100%
+          ),
+          var(--purple, #a729f5);
+        box-shadow: 0px 16px 40px 0px rgba(143, 160, 193, 0.14);
       }
     }
   }
