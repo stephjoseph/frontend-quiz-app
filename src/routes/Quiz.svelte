@@ -1,6 +1,6 @@
 <script>
   // @ts-nocheck
-
+  import { link } from "svelte-routing";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
   import Header from "../components/Header.svelte";
@@ -71,10 +71,6 @@
     const letters = ["A", "B", "C", "D"];
     const index = quiz.questions[currentQuestion].options.indexOf(option);
     return letters[index];
-  };
-
-  const playAgain = () => {
-    window.location.reload();
   };
 
   $: isLastQuestion = quiz && currentQuestion === quiz.questions.length - 1;
@@ -176,7 +172,7 @@
         <div class="score__card-count">{correctAnswersCount}</div>
         <span class="score__card-length">out of {quiz.questions.length}</span>
       </div>
-      <button class="score__button" on:click={playAgain}> Play Again </button>
+      <a class="score__button" href="/" use:link> Play Again </a>
     </div>
   </section>
 {:else}
@@ -499,6 +495,7 @@
       font-weight: 500;
       line-height: 100%; /* 18px */
       cursor: pointer;
+      text-align: center;
 
       &:hover,
       &:active {
