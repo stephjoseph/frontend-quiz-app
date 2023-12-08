@@ -509,4 +509,91 @@
       }
     }
   }
+
+  // dark mode styles
+  body.dark {
+    .quiz {
+      .quiz__question-number {
+        color: var(--light-bluish);
+      }
+      .quiz__question-text {
+        color: var(--pure-white);
+      }
+
+      .quiz__question-progress-bar {
+        background-color: var(--navy);
+      }
+
+      .quiz__option {
+        background-color: var(--navy);
+        color: var(--pure-white);
+        border: 3px solid var(--navy);
+
+        &.selected {
+          border: 3px solid var(--purple);
+
+          span {
+            color: var(--pure-white);
+            background: var(--purple);
+          }
+        }
+
+        &.correct {
+          border: 3px solid var(--green);
+
+          span {
+            color: var(--pure-white);
+            background: var(--green);
+          }
+
+          .quiz__option-icon {
+            &-correct {
+              opacity: 1;
+            }
+          }
+        }
+
+        &.incorrect {
+          border: 3px solid var(--red);
+
+          .quiz__option-icon {
+            &-incorrect {
+              opacity: 1;
+            }
+          }
+
+          span {
+            color: var(--pure-white);
+            background: var(--red);
+          }
+        }
+      }
+
+      .quiz__error {
+        color: var(--pure-white);
+      }
+    }
+
+    .score {
+      h2 {
+        color: var(--pure-white);
+      }
+
+      .score__card {
+        background: var(--navy);
+      }
+
+      .score__card-subject-title {
+        color: var(--pure-white);
+      }
+
+      .score__card-count {
+        color: var(--pure-white);
+      }
+
+      .score__card-length {
+        color: var(--light-bluish);
+      }
+    }
+  }
 </style>
