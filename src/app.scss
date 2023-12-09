@@ -103,4 +103,8 @@ a {
   width: 100%;
   display: grid;
   place-items: center;
+
+  & > div:nth-child(1) {
+    width: 100%;
+  }
 }
