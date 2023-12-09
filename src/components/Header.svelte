@@ -167,4 +167,47 @@
       }
     }
   }
+
+  @media screen and (min-width: 768px) {
+    .header {
+      padding: 54px 64px 64px;
+
+      &__switch {
+        gap: 16px;
+
+        &-icon {
+          width: 24px;
+          height: 24px;
+        }
+
+        label {
+          width: 48px;
+          height: 28px;
+
+          input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          span {
+            border-radius: 999px;
+
+            &::before {
+              height: 20px;
+              width: 20px;
+              left: 4px;
+              bottom: 4px;
+            }
+          }
+
+          input:checked + span:before {
+            -webkit-transform: translateX(20px);
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
+          }
+        }
+      }
+    }
+  }
 </style>

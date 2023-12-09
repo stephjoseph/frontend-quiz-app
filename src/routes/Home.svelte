@@ -159,4 +159,48 @@
       }
     }
   }
+
+  @media screen and (min-width: 768px) {
+    .home {
+      padding: 0px 64px 240px;
+      gap: 64px;
+
+      &__heading {
+        h1 {
+          font-size: 64px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+
+          span {
+            font-size: 64px;
+          }
+        }
+        span {
+          font-size: 20px;
+        }
+      }
+
+      &__links {
+        gap: 24px;
+
+        li {
+          a {
+            gap: 32px;
+            width: 100%;
+            background: var(--pure-white);
+            border-radius: 24px;
+            font-size: 28px;
+
+            div {
+              width: 56px;
+              height: 56px;
+              padding: 8px;
+              border-radius: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
 </style>
