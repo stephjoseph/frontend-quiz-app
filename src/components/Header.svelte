@@ -172,6 +172,21 @@
     .header {
       padding: 54px 64px 64px;
 
+      &__quiz {
+        gap: 32px;
+
+        &-icon {
+          padding: 8px;
+          border-radius: 8px;
+          width: 56px;
+          height: 56px;
+        }
+
+        &-title {
+          font-size: 28px;
+        }
+      }
+
       &__switch {
         gap: 16px;
 
