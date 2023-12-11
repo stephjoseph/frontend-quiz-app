@@ -596,4 +596,115 @@
       }
     }
   }
+
+  @media screen and (min-width: 768px) {
+    .quiz {
+      padding: 0px 64px 56px;
+      gap: 64px;
+
+      &__container {
+        gap: 40px;
+      }
+
+      &__question {
+        gap: 28px;
+
+        &-number {
+          font-size: 20px;
+        }
+
+        &-text {
+          font-size: 36px;
+        }
+      }
+
+      &__options {
+        gap: 24px;
+
+        &-button {
+          gap: 32px;
+
+          button {
+            padding: 32px;
+            border-radius: 24px;
+            font-size: 28px;
+          }
+        }
+      }
+
+      &__option {
+        border-radius: 24px;
+        font-size: 28px;
+        gap: 32px;
+
+        span {
+          font-size: 28px;
+          min-width: 56px;
+          height: 56px;
+          border-radius: 12px;
+        }
+
+        &-icon {
+          min-width: 40px;
+          height: 40px;
+        }
+      }
+
+      &__error {
+        font-size: 24px;
+
+        &-icon {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+
+    .score {
+      gap: 64px;
+      padding: 0px 64px 167px;
+
+      h2 {
+        font-size: 64px;
+      }
+
+      &__container {
+        gap: 32px;
+      }
+
+      &__card {
+        padding: 48px;
+        border-radius: 24px;
+
+        &-subject {
+          gap: 24px;
+
+          &-icon {
+            padding: 8px;
+            border-radius: 8px;
+            width: 56px;
+            height: 56px;
+          }
+
+          &-title {
+            font-size: 28px;
+          }
+        }
+
+        &-count {
+          font-size: 144px;
+          margin-top: 24px;
+        }
+
+        &-length {
+          font-size: 24px;
+        }
+      }
+      &__button {
+        padding: 32px;
+        border-radius: 24px;
+        font-size: 28px;
+      }
+    }
+  }
 </style>
