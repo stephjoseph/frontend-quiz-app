@@ -188,7 +188,6 @@
           a {
             gap: 32px;
             width: 100%;
-            background: var(--pure-white);
             border-radius: 24px;
             font-size: 28px;
 
@@ -198,6 +197,30 @@
               padding: 8px;
               border-radius: 12px;
             }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 1280px) {
+    .home {
+      padding: 0px 140px 280px;
+      gap: 0px;
+      flex-direction: row;
+      justify-content: space-between;
+
+      &__heading {
+        width: 40.09%;
+        gap: 48px;
+      }
+
+      &__links {
+        width: 48.62%;
+
+        li {
+          a {
+            padding: 20px;
           }
         }
       }
