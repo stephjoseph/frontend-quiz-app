@@ -225,4 +225,14 @@
       }
     }
   }
+
+  @media screen and (min-width: 1280px) {
+    .header {
+      padding: 80px 140px;
+
+      &__quiz {
+        gap: 24px;
+      }
+    }
+  }
 </style>
