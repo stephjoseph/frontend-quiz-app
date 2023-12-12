@@ -707,4 +707,43 @@
       }
     }
   }
+
+  @media screen and (min-width: 1280px) {
+    .quiz {
+      padding: 0px 140px 172px;
+      gap: 0px;
+      flex-direction: row;
+      justify-content: space-between;
+
+      &__container {
+        width: 40.09%;
+        gap: 0px;
+        justify-content: space-between;
+        height: 452px;
+      }
+
+      &__options {
+        width: 48.62%;
+      }
+
+      &__option {
+        padding: 20px;
+      }
+    }
+
+    .score {
+      gap: 0px;
+      padding: 0px 140px 224px;
+      flex-direction: row;
+      justify-content: space-between;
+
+      h2 {
+        width: 40.09%;
+      }
+
+      &__container {
+        width: 48.62%;
+      }
+    }
+  }
 </style>
